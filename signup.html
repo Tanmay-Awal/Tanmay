@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}
+The Wedding Journey/Signup 
+{% endblock title %}
+
+{% block body %}
+
+<div class="container mt-5">
+
+<div class="row">
+
+<div class="col-md-4"></div>
+
+<div class="col-md-4 bg-light p-5 rounded">
+<h4 class="text-center bg-gradient text-black  ">Sign Up Here</h4>
+<br>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+
+    <form action="/signup" method="POST">
+
+        <div class="mb-3">
+            <label for="username" class="form-label">UserName</label>
+            <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" required >
+          </div>
+
+        <div class="mb-3">
+          <label for="Email" class="form-label">Email Address</label>
+          <input type="email" class="form-control" id="Email" name="Email" aria-describedby="emailHelp" required>
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="Password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+          <div id="passwordHelp" class="form-text">Please Create a Strong Password.</div>
+        </div>
+<br>
+        <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Signup</button>
+        </div>
+    </form>
+<br>
+Already A User ? <a href="/login">Login</a>
+</div>
+
+<div class="col-md-4"></div>
+
+
+<div>
+
+</div>
+
+
+
+
+{% endblock body %}
