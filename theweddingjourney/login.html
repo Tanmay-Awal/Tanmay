@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+The Wedding Journey/Login
+{% endblock title %}
+
+{% block body %}
+
+<div class="container mt-5">
+
+    <div class="row">
+    
+    <div class="col-md-4"></div>
+    
+    <div class="col-md-4 bg-light p-5 rounded">
+    <h4 class="text-center bg-gradient text-black  ">Log In Here</h4>
+    <br>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+    
+
+        <form action="/login" method="POST">
+
+            <div class="mb-3">
+              <label for="Email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="Email" name="Email" aria-describedby="emailHelp" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="Password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+              </div>
+    <br>
+            <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-success">Login</button>
+            </div>
+        </form>
+<br>
+New To Our Website ? <a href="/signup">Signup</a>
+    </div>
+    
+    <div class="col-md-4"></div>
+    
+    
+    <div>
+    
+    </div>
+    
+
+
+{% endblock body %}
