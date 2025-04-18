@@ -1,0 +1,103 @@
+/* Full height and clean reset */
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+}
+
+.register-wrapper {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  height: 80%;
+  background-color: black;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.register-container {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 80px;
+  border-radius: 15px;
+}
+
+.register-title {
+  font-size: 32px;
+  font-style: italic;
+  margin-bottom: 30px;
+  color: white;
+  margin-left: 15px;
+}
+
+.register-form input{
+  color: black;
+}
+
+.register-form input,
+.register-form button {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 55px;
+  border: none;
+  font-size: 16px;
+}
+
+.register-form input {
+  background-color: white;
+}
+
+.register-form input::placeholder {
+  color:black;
+  opacity: 1; /* Ensures it's fully visible */
+}
+
+
+.register-form button {
+  background-color: #33d6ff;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-link {
+  color: #33d6ff;
+  cursor: pointer;
+  text-align: center;
+}
+
+.register-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.register-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+input, button {
+  height: 75px; /* You can adjust this value */
+  margin-bottom: 50px;
+}
+
+.form-container {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
