@@ -7,6 +7,9 @@ from flask_jwt_extended import (
     jwt_required, get_jwt_identity
 )
 from datetime import datetime, timedelta
+import pymysql
+pymysql.install_as_MySQLdb()
+
 
 app = Flask(__name__)
 
@@ -14,7 +17,7 @@ app = Flask(__name__)
 CORS(app, origins=["http://localhost:5173"])
 
 # ======= CONFIG ========
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://tanmay:Tanawal%4009@localhost/mydb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:UiQJfsgLknaQgEsIteLjUMItzCKlflMb@shuttle.proxy.rlwy.net:54848/railway'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'supersecretkey'
 app.config['JWT_IDENTITY_CLAIM'] = 'sub'
