@@ -14,7 +14,7 @@ pymysql.install_as_MySQLdb()
 app = Flask(__name__)
 
 # CORS configuration (more specific to allow only localhost:5173)
-CORS(app, origins=["http://localhost:5173"])
+CORS(app, origins=["https://tasksteroids.onrender.com/"])
 
 # ======= CONFIG ========
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:UiQJfsgLknaQgEsIteLjUMItzCKlflMb@shuttle.proxy.rlwy.net:54848/railway'
