@@ -12,7 +12,7 @@ const Home = () => {
 
   const fetchTodaysTasks = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/tasks/upcoming', {
+      const response = await fetch('https://tanmay-production.up.railway.app/api/tasks/upcoming', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

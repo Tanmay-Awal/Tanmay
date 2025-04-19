@@ -56,7 +56,7 @@ const AddTaskPage = () => {
     setIsSubmitting(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/api/tasks', {
+      const response = await fetch('https://tanmay-production.up.railway.app/api/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

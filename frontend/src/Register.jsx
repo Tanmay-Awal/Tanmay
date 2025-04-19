@@ -24,7 +24,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/register", {
+      const response = await fetch('https://tanmay-production.up.railway.app/register', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

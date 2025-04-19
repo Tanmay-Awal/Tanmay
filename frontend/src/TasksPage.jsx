@@ -36,7 +36,7 @@ const TasksPage = () => {
     try {
       setIsLoading(true);
       // Replace with your actual API endpoint
-      const response = await fetch('http://localhost:8080/api/tasks', {
+      const response = await fetch('https://tanmay-production.up.railway.app/api/tasks', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -73,7 +73,7 @@ const TasksPage = () => {
       setTasks(updatedTasks);
       
       // Now send the update to the server with the new status
-      const response = await fetch(`http://localhost:8080/api/tasks/${taskId}`, {
+      const response = await fetch(`https://tanmay-production.up.railway.app/api/tasks/${taskId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -108,7 +108,7 @@ const TasksPage = () => {
 
     try {
       // Replace with your actual API endpoint for deleting tasks
-      const response = await fetch(`http://localhost:8080/api/tasks/${taskId}`, {
+      const response = await fetch(`https://tanmay-production.up.railway.app/api/tasks/${taskId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -173,7 +173,7 @@ const TasksPage = () => {
       };
       
       // Replace with your actual API endpoint for updating tasks
-      const response = await fetch(`http://localhost:8080/api/tasks/${taskId}`, {
+      const response = await fetch(`https://tanmay-production.up.railway.app/api/tasks/${taskId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

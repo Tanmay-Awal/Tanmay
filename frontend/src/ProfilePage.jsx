@@ -30,7 +30,7 @@ const ProfilePage = () => {
       setIsLoading(true);
       const token = localStorage.getItem('token');
 
-      const response = await fetch('http://localhost:8080/api/user/profile', {
+      const response = await fetch('https://tanmay-production.up.railway.app/api/user/profile', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -77,7 +77,7 @@ const ProfilePage = () => {
     }
 
     try {
-        const response = await fetch("http://localhost:8080/api/user/reset", {
+        const response = await fetch("https://tanmay-production.up.railway.app/api/user/reset", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -105,7 +105,7 @@ const handleDeleteAccount = async () => {
     return;
 }
   try {
-      const response = await axios.delete('http://localhost:8080/api/user/delete', {
+      const response = await axios.delete('https://tanmay-production.up.railway.app/api/user/delete', {
           headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -141,7 +141,7 @@ const handleDeleteAccount = async () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/api/user/profile', {
+      const response = await fetch('https://tanmay-production.up.railway.app/api/user/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
