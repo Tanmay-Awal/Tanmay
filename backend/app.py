@@ -171,7 +171,7 @@ def update_user_profile():
             'email': user.email,
             'tasksCompleted': Task.query.filter_by(user_id=user.id, done=True).count(),
             'tasksInProgress': Task.query.filter_by(user_id=user.id, done=False).count(),
-            'streak': 5  # Replace with actual logic if implemented
+            'streak': 0  # Replace with actual logic if implemented
         }), 200
     except Exception as e:
         db.session.rollback()
