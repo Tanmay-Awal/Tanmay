@@ -73,7 +73,6 @@ const AddTaskPage = () => {
       });
 
       if (response.ok) {
-        // Optional: clear the form after successful task creation
         setFormData({
           title: '',
           description: '',
