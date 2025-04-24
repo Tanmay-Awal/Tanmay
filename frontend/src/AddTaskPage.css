@@ -1,5 +1,4 @@
-/* AddTaskPage.css */
-/* Global Variables - Matching TasksPage.css theme */
+
 :root {
     --primary-color: #5fe0ff;
     --primary-dark: #33c5e5;
@@ -13,7 +12,6 @@
     --danger-color: #e74c3c;
   }
   
-  /* Base Styles */
   .add-task-container {
     min-height: 100vh;
     background-color: var(--background-color);
@@ -22,7 +20,6 @@
     flex-direction: column;
   }
   
-  /* Navbar Styles - Same as TasksPage */
   .navbar {
     display: flex;
     justify-content: space-between;
@@ -71,7 +68,6 @@
     width: 100%;
   }
   
-  /* Form container */
   .form-container {
     max-width: 800px;
     width: 90%;
@@ -116,7 +112,6 @@
     transform: translateX(-3px);
   }
   
-  /* Form styles */
   .task-form {
     display: flex;
     flex-direction: column;
@@ -186,7 +181,6 @@
     border-radius: 4px;
   }
   
-  /* Form buttons */
   .form-buttons {
     display: flex;
     justify-content: flex-end;
@@ -242,12 +236,10 @@
     background-color: rgba(255, 255, 255, 0.15);
   }
   
-  /* Placeholder input styling */
   ::placeholder {
     color: rgba(255, 255, 255, 0.3);
   }
   
-  /* Custom styling for select dropdown */
   select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235fe0ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
@@ -255,13 +247,13 @@
     background-position: right 0.75rem center;
     background-size: 16px;
     padding-right: 2.5rem;
-    background-color: #222;       /* closed dropdown */
+    background-color: #222;       
     color: white;
     border: 1px solid #555;
   }
 
   select option {
-    background-color: #333;       /* dropdown list background */
+    background-color: #333;       
     color: white;
   }
 
@@ -273,7 +265,6 @@
   
   
   
-  /* Date input styling */
   input[type="date"] {
     color-scheme: dark;
   }
