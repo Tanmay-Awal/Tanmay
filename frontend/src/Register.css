@@ -1,4 +1,3 @@
-/* Full height and clean reset */
 body, html, #root {
   height: 100%;
   margin: 0;
@@ -61,7 +60,7 @@ body, html, #root {
 
 .register-form input::placeholder {
   color:black;
-  opacity: 1; /* Ensures it's fully visible */
+  opacity: 1; 
 }
 
 
@@ -93,7 +92,7 @@ body, html, #root {
 }
 
 input, button {
-  height: 75px; /* You can adjust this value */
+  height: 75px; 
   margin-bottom: 50px;
 }
 
