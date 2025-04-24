@@ -27,9 +27,8 @@ function Login() {
 
       if (response.ok) {
         alert("Login successful!");
-        // Corrected: Save token from response data
         localStorage.setItem('token', data.token);
-        navigate("/Home"); // Navigate to home or dashboard
+        navigate("/Home"); 
       } else {
         alert(data.message || "Login failed.");
       }
@@ -42,7 +41,6 @@ function Login() {
   return (
     <div className="login-page">
       <div className="login-wrapper">
-        {/* Left - Form */}
         <div className="login-container">
           <h2 className="login-title">Login</h2>
           <form className="login-form" onSubmit={handleSubmit}>
@@ -69,7 +67,6 @@ function Login() {
           </form>
         </div>
 
-        {/* Right - Image */}
         <div className="login-image">
           <img
             src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png"
