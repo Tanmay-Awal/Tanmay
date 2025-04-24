@@ -19,7 +19,7 @@ const Home = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        setTodaysTasks(data.tasks.slice(0, 3)); // Only take top 3 tasks
+        setTodaysTasks(data.tasks.slice(0, 3)); 
       } else {
         setTodaysTasks([]);
       }
@@ -41,7 +41,6 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Top Navbar */}
       <nav className="navbar">
         <div className="logo">
           <Link to="/Home">TaskSteroids</Link>
@@ -54,7 +53,6 @@ const Home = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
           <h1>Supercharge Your Productivity with TaskSteroids 💥</h1>
@@ -70,7 +68,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="features-section">
         <h2>Why TaskSteroids?</h2>
         <div className="feature-cards">
@@ -97,7 +94,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Quick Glance Section */}
       <section className="quick-glance-section">
         <h2>Today's Tasks</h2>
         <div className="todays-tasks">
@@ -148,7 +144,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
       <section className="testimonials-section">
         <h2>What People Are Saying</h2>
         <div className="testimonials-container">
@@ -167,7 +162,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-logo">TaskSteroids</div>
