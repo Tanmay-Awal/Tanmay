@@ -7,10 +7,9 @@ const TasksPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('all');
   const [sortBy, setSortBy] = useState('deadline');
-  const [viewMode, setViewMode] = useState('list'); // 'list' or 'kanban'
+  const [viewMode, setViewMode] = useState('list'); 
   const navigate = useNavigate();
   
-  // State to track which task is being edited and the edited values
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editFormData, setEditFormData] = useState({
     title: '',
@@ -20,7 +19,6 @@ const TasksPage = () => {
     category: '',
   });
 
-  // Fetch tasks when component mounts
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -31,11 +29,9 @@ const TasksPage = () => {
     fetchTasks();
   }, [navigate]);
 
-  // Function to fetch tasks from backend
   const fetchTasks = async () => {
     try {
       setIsLoading(true);
-      // Replace with your actual API endpoint
       const response = await fetch('https://tanmay-production.up.railway.app/api/tasks', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -57,22 +53,17 @@ const TasksPage = () => {
     }
   };
 
-  // Fixed function to toggle task completion status with single click and ensure persistence
   const toggleTaskStatus = async (taskId) => {
     try {
-      // Find the task to toggle
       const taskToToggle = tasks.find(task => task.id === taskId);
       if (!taskToToggle) return;
       
-      // Clone the tasks array and update the specific task
       const updatedTasks = tasks.map(task => 
         task.id === taskId ? { ...task, done: !task.done } : task
       );
       
-      // Update UI first for immediate feedback
       setTasks(updatedTasks);
       
-      // Now send the update to the server with the new status
       const response = await fetch(`https://tanmay-production.up.railway.app/api/tasks/${taskId}`, {
         method: 'PUT',
         headers: {
@@ -81,7 +72,6 @@ const TasksPage = () => {
         },
         body: JSON.stringify({
           done: !taskToToggle.done,
-          // Include all other necessary task fields to prevent them from being lost
           title: taskToToggle.title,
           description: taskToToggle.description,
           deadline: taskToToggle.deadline,
@@ -92,22 +82,18 @@ const TasksPage = () => {
 
       if (!response.ok) {
         console.error('Failed to update task status on server');
-        // Revert the UI update if server update failed
-        fetchTasks(); // Refresh from server to ensure UI is in sync
+        fetchTasks();
       }
     } catch (error) {
       console.error('Error updating task status:', error);
-      // Refresh from server on error
       fetchTasks();
     }
   };
 
-  // Function to delete a task
   const deleteTask = async (taskId) => {
     if (!window.confirm('Are you sure you want to delete this task?')) return;
 
     try {
-      // Replace with your actual API endpoint for deleting tasks
       const response = await fetch(`https://tanmay-production.up.railway.app/api/tasks/${taskId}`, {
         method: 'DELETE',
         headers: {
@@ -125,19 +111,17 @@ const TasksPage = () => {
     }
   };
 
-  // Handle starting edit mode for a task
   const handleEditClick = (task) => {
     setEditingTaskId(task.id);
     setEditFormData({
       title: task.title,
       description: task.description || '',
-      deadline: new Date(task.deadline).toISOString().split('T')[0], // Format date as YYYY-MM-DD
+      deadline: new Date(task.deadline).toISOString().split('T')[0], 
       priority: task.priority,
       category: task.category || '',
     });
   };
 
-  // Handle canceling edit mode
   const handleCancelEdit = () => {
     setEditingTaskId(null);
     setEditFormData({
@@ -149,7 +133,6 @@ const TasksPage = () => {
     });
   };
 
-  // Handle form field changes
   const handleEditFormChange = (e) => {
     const { name, value } = e.target;
     setEditFormData({
@@ -158,21 +141,17 @@ const TasksPage = () => {
     });
   };
 
-  // Handle saving edited task
   const handleSaveEdit = async (taskId) => {
     try {
-      // Get the original task to preserve fields not in the form
       const originalTask = tasks.find(task => task.id === taskId);
       if (!originalTask) return;
       
-      // Create complete updated task object
       const updatedTaskData = {
         ...originalTask,
         ...editFormData,
         deadline: new Date(editFormData.deadline)
       };
       
-      // Replace with your actual API endpoint for updating tasks
       const response = await fetch(`https://tanmay-production.up.railway.app/api/tasks/${taskId}`, {
         method: 'PUT',
         headers: {
@@ -183,12 +162,11 @@ const TasksPage = () => {
       });
 
       if (response.ok) {
-        // Update the task in the local state
         const updatedTasks = tasks.map((task) =>
           task.id === taskId ? updatedTaskData : task
         );
         setTasks(updatedTasks);
-        setEditingTaskId(null); // Exit edit mode
+        setEditingTaskId(null); 
       } else {
         console.error('Failed to update task');
       }
@@ -197,12 +175,10 @@ const TasksPage = () => {
     }
   };
 
-  // Calculate completion percentage for progress bar
   const completionPercentage = tasks.length
     ? Math.floor((tasks.filter((task) => task.done).length / tasks.length) * 100)
     : 0;
 
-  // Filter and sort tasks
   const filteredTasks = tasks.filter((task) => {
     if (filterStatus === 'all') return true;
     if (filterStatus === 'completed') return task.done;
@@ -224,13 +200,11 @@ const TasksPage = () => {
     return 0;
   });
 
-  // Group tasks by status for Kanban view
   const tasksByStatus = {
     'To Do': sortedTasks.filter((task) => !task.done),
     Completed: sortedTasks.filter((task) => task.done),
   };
 
-  // Render edit form for a task
   const renderEditForm = (task) => (
     <div className="task-edit-form">
       <div className="form-group">
@@ -312,7 +286,6 @@ const TasksPage = () => {
 
   return (
     <div className="tasks-container">
-      {/* Top Navbar */}
       <nav className="navbar">
         <div className="logo">
           <Link to="/Home">TaskSteroids</Link>
@@ -327,7 +300,6 @@ const TasksPage = () => {
         </div>
       </nav>
 
-      {/* Tasks Header */}
       <header className="tasks-header">
         <h1>Your Tasks</h1>
         <Link to="/AddTaskPage" className="add-task-button">
@@ -335,7 +307,6 @@ const TasksPage = () => {
         </Link>
       </header>
 
-      {/* Task Controls */}
       <div className="task-controls">
         <div className="filter-controls">
           <label>Filter:</label>
@@ -377,7 +348,6 @@ const TasksPage = () => {
         </div>
       </div>
 
-      {/* Tasks Content */}
       <div className="tasks-content">
         {isLoading ? (
           <div className="loading-spinner">Loading...</div>
@@ -396,7 +366,6 @@ const TasksPage = () => {
                       ) : (
                         <>
                           <div className="task-header">
-                            {/* Single-click checkbox with proper handler */}
                             <div
                               className={`task-checkbox ${task.done ? 'checked' : ''}`}
                               onClick={() => toggleTaskStatus(task.id)}
@@ -485,7 +454,6 @@ const TasksPage = () => {
                                     {new Date(task.deadline).toLocaleDateString()}
                                   </div>
                                   <div className="kanban-card-actions">
-                                    {/* Single-click toggle button in Kanban view */}
                                     <button
                                       className="status-toggle"
                                       onClick={() => toggleTaskStatus(task.id)}
@@ -526,7 +494,6 @@ const TasksPage = () => {
         )}
       </div>
 
-      {/* Stats Footer */}
       <footer className="tasks-stats">
         <div className="stat-item">
           <span className="stat-label">Total Tasks:</span>
