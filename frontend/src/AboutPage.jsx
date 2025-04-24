@@ -14,7 +14,6 @@ const AboutPage = () => {
       minHeight: '100vh',
       padding: '2rem'
     }}>
-      {/* Navigation - matching the existing one */}
       <nav style={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
@@ -32,7 +31,6 @@ const AboutPage = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <div className="hero-section" style={{ 
         display: 'flex',
         flexDirection: 'column',
@@ -54,7 +52,6 @@ const AboutPage = () => {
         </p>
       </div>
 
-      {/* Main Content */}
       <div className="about-content" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
         <div className="about-text" style={{ flex: '1', minWidth: '300px' }}>
           <h2 style={{ color: '#30D5F7', marginBottom: '1.5rem', fontSize: '2rem' }}>Our Mission</h2>
@@ -74,7 +71,6 @@ const AboutPage = () => {
           </p>
         </div>
 
-        {/* Features Section */}
         <div className="features" style={{ flex: '1', minWidth: '300px' }}>
           <h2 style={{ color: '#30D5F7', marginBottom: '1.5rem', fontSize: '2rem' }}>Why Choose TaskSteroids?</h2>
           
@@ -140,7 +136,6 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* CTA Section */}
       <div className="cta-section" style={{ 
         marginTop: '4rem',
         textAlign: 'center',
@@ -167,7 +162,6 @@ const AboutPage = () => {
         </button>
       </div>
 
-      {/* Footer */}
       <footer style={{ 
         marginTop: '5rem',
         paddingTop: '2rem',
