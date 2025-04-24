@@ -1,4 +1,3 @@
-/* ProfilePage.css */
 body {
     margin: 0;
     padding: 0;
@@ -306,7 +305,6 @@ body {
     margin: 0;
   }
   
-  /* Responsive design */
   @media (max-width: 768px) {
     .stats-grid {
       grid-template-columns: 1fr;
