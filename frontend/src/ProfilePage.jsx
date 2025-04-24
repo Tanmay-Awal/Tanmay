@@ -88,7 +88,6 @@ const ProfilePage = () => {
         if (response.ok) {
             alert("Progress reset successfully!");
 
-            // Optional: Refresh the page or refetch the profile data
             window.location.reload();
         } else {
             const data = await response.json();
@@ -111,13 +110,10 @@ const handleDeleteAccount = async () => {
           }
       });
 
-      // Check if response exists and is successful
       if (response && response.status === 200) {
-          // Clear tokens from localStorage
           localStorage.removeItem('token');
           localStorage.removeItem('refresh_token');
 
-          // Redirect to register page
           navigate('/register');
       } else {
           alert('Something went wrong while deleting your account.');
@@ -126,13 +122,10 @@ const handleDeleteAccount = async () => {
       console.error('Error deleting account:', error);
       
       if (error.response) {
-          // Server responded with a status outside 2xx
           alert(error.response.data.message || 'Failed to delete account.');
       } else if (error.request) {
-          // Request was made but no response received
           alert('No response from server. Please try again later.');
       } else {
-          // Something else happened
           alert('An unexpected error occurred.');
       }
   }
