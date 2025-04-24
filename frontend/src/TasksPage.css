@@ -1,5 +1,4 @@
-/* TasksPage.css */
-/* Global Variables - Match these with your HomePage.css */
+
 :root {
     --primary-color: #5fe0ff;
     --primary-dark: #33c5e5;
@@ -13,7 +12,6 @@
     --danger-color: #e74c3c;
   }
   
-  /* Base Styles */
   .tasks-container {
     min-height: 100vh;
     background-color: var(--background-color);
@@ -22,7 +20,6 @@
     flex-direction: column;
   }
   
-  /* Navbar Styles - Same as HomePage */
   .navbar {
     display: flex;
     justify-content: space-between;
@@ -70,7 +67,6 @@
     width: 100%;
   }
   
-  /* Tasks Header */
   .tasks-header {
     display: flex;
     justify-content: space-between;
@@ -106,7 +102,6 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
   
-  /* Task Controls */
   .task-controls {
     display: flex;
     justify-content: space-between;
@@ -173,7 +168,6 @@
     border-color: var(--primary-color);
   }
   
-  /* Tasks Content */
   .tasks-content {
     flex: 1;
     padding: 0 2rem 2rem;
@@ -201,7 +195,6 @@
     margin-bottom: 1rem;
   }
   
-  /* Task List */
   .task-list {
     display: flex;
     flex-direction: column;
@@ -334,7 +327,6 @@
     color: white;
   }
   
-  /* Kanban Board */
   .kanban-board {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -465,7 +457,6 @@
     font-style: italic;
   }
   
-  /* Stats Footer */
   .tasks-stats {
     display: flex;
     justify-content: space-between;
@@ -511,7 +502,6 @@
     transition: width 0.3s ease;
   }
   
-  /* Responsive Styles */
   @media (max-width: 768px) {
     .tasks-header,
     .task-controls,
@@ -543,9 +533,6 @@
     }
   }
 
-  /* Existing styles for your TasksPage component */
-
-/* Styles for the edit form */
 .task-edit-form {
   padding: 15px;
   background-color: black;
@@ -625,12 +612,10 @@
   background-color: #d32f2f;
 }
 
-/* Kanban edit container */
 .kanban-edit-container {
   padding: 10px;
 }
 
-/* Progress bar text */
 .progress-text {
   margin-top: 5px;
   text-align: center;
@@ -638,7 +623,6 @@
   color: #666;
 }
 
-/* Task checkbox styling */
 .task-checkbox {
   cursor: pointer;
   font-size: 20px;
@@ -650,7 +634,6 @@
   transform: scale(1.1);
 }
 
-/* Edit and Delete buttons */
 .edit-button,
 .delete-button {
   padding: 6px 12px;
@@ -680,7 +663,6 @@
   background-color: #d32f2f;
 }
 
-/* Kanban edit and delete icons */
 .edit-icon,
 .delete-icon {
   background: none;
