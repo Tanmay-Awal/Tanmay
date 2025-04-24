@@ -13,10 +13,8 @@ pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
 
-# CORS configuration (more specific to allow only localhost:5173)
 CORS(app, origins=["https://tasksteroids.onrender.com"])
 
-# ======= CONFIG ========
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:UiQJfsgLknaQgEsIteLjUMItzCKlflMb@shuttle.proxy.rlwy.net:54848/railway'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'supersecretkey'
@@ -24,14 +22,12 @@ app.config['JWT_IDENTITY_CLAIM'] = 'sub'
 app.config['JWT_TOKEN_LOCATION'] = ['headers']
 app.config['JWT_HEADER_NAME'] = 'Authorization'
 app.config['JWT_HEADER_TYPE'] = 'Bearer'
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)  # Explicitly set expiration time
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1) 
 
-# ======= EXTENSIONS ========
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-# ======= MODELS ========
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -61,11 +57,9 @@ class Task(db.Model):
         }
 
 
-# Create DB tables
 with app.app_context():
     db.create_all()
 
-# ======= ROUTES ========
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -73,7 +67,6 @@ def register():
     if not data:
         return jsonify({"message": "No data provided"}), 400
 
-    # Validate required fields
     if 'name' not in data or 'email' not in data or 'password' not in data:
         return jsonify({"message": "Missing required fields"}), 400
 
@@ -103,7 +96,6 @@ def login():
         return jsonify({"message": "User not found"}), 404
 
     if bcrypt.check_password_hash(user.password, data['password']):
-        # Properly include additional_claims as a parameter
         token = create_access_token(
             identity=str(user.id),
             additional_claims={"sub": str(user.id)},
@@ -120,7 +112,7 @@ def get_user_profile():
         user_id = get_jwt_identity()
         print(f"Retrieved identity: {user_id}, type: {type(user_id)}")
         
-        user = User.query.get(int(user_id))  # Cast user_id to int
+        user = User.query.get(int(user_id))
         
         if not user:
             return jsonify({"message": "User not found"}), 404
@@ -156,12 +148,10 @@ def update_user_profile():
 
         new_email = data.get('email')
         if new_email and new_email != user.email:
-            # Check if the new email already exists for another user
             existing_user = User.query.filter_by(email=new_email).first()
             if existing_user and existing_user.id != user.id:
                 return jsonify({'message': 'Email already exists'}), 400
 
-        # Update the fields
         user.name = data.get('username', user.name)
         user.email = new_email or user.email
 
@@ -171,7 +161,7 @@ def update_user_profile():
             'email': user.email,
             'tasksCompleted': Task.query.filter_by(user_id=user.id, done=True).count(),
             'tasksInProgress': Task.query.filter_by(user_id=user.id, done=False).count(),
-            'streak': 0  # Replace with actual logic if implemented
+            'streak': 0 
         }), 200
     except Exception as e:
         db.session.rollback()
@@ -184,7 +174,6 @@ def create_task():
         user_id = get_jwt_identity()
         data = request.get_json()
 
-        # Validate required field
         if not data.get('title'):
             return jsonify({'message': 'Title is required'}), 400
 
@@ -244,16 +233,13 @@ def toggle_task_status(task_id):
     if not task:
         return jsonify({'error': 'Task not found or unauthorized'}), 404
     
-    # Toggle the done status
     task.done = not task.done
     
-    # If task is marked as done, update completed_at timestamp
     if task.done:
         task.completed_at = datetime.datetime.utcnow()
     else:
         task.completed_at = None
     
-    # Save changes to database
     try:
         db.session.commit()
         return jsonify({'message': 'Task status updated', 'task': task.to_dict()}), 200
@@ -261,7 +247,6 @@ def toggle_task_status(task_id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-# Route to delete a task
 @app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
 @jwt_required()
 def delete_task(task_id):
@@ -271,7 +256,6 @@ def delete_task(task_id):
     if not task:
         return jsonify({'error': 'Task not found or unauthorized'}), 404
     
-    # Delete the task
     try:
         db.session.delete(task)
         db.session.commit()
@@ -285,13 +269,12 @@ def delete_task(task_id):
 @jwt_required()
 def get_tasks():
     try:
-        user_id = get_jwt_identity()  # Get user ID from the JWT
-        tasks = Task.query.filter_by(user_id=user_id).all()  # Fetch tasks for the current user
+        user_id = get_jwt_identity()  
+        tasks = Task.query.filter_by(user_id=user_id).all() 
         
         if not tasks:
             return jsonify({"message": "No tasks found"}), 404
 
-        # Convert tasks to a list of dictionaries for JSON serialization
         tasks_list = [
             {
                 "id": task.id,
@@ -316,10 +299,8 @@ def get_tasks():
 def get_upcoming_tasks():
     try:
         user_id = get_jwt_identity()
-        # Query tasks, filter by user, order by deadline (ascending), and limit to tasks with non-null deadlines
         tasks = Task.query.filter_by(user_id=user_id).filter(Task.deadline != None).order_by(Task.deadline).all()
         
-        # Convert tasks to a list of dictionaries for JSON serialization
         tasks_list = [
             {
                 "id": task.id,
@@ -343,10 +324,8 @@ def get_upcoming_tasks():
 def reset_user_progress():
     user_id = get_jwt_identity()
     
-    # Delete all tasks of the user
     Task.query.filter_by(user_id=user_id).delete()
     
-    # Reset user-specific stats (if stored in User table, update accordingly)
     user = User.query.get(user_id)
     user.tasks_completed = 0
     user.tasks_in_progress = 0
@@ -360,25 +339,19 @@ def reset_user_progress():
 @app.route('/api/user/delete', methods=['DELETE'])
 @jwt_required()
 def delete_user():
-    # Get the current user's ID from the JWT
     current_user_id = get_jwt_identity()
 
-    # Find the user
     user = User.query.get(current_user_id)
     if not user:
         return jsonify({'message': 'User not found'}), 404
     
-    # Delete all tasks associated with the user
     Task.query.filter_by(user_id=current_user_id).delete()
 
-    # Delete the user record
     db.session.delete(user)
     db.session.commit()
 
-    # Return a success response
     return jsonify({'message': 'Account deleted successfully'}), 200
 
 
-# ======= MAIN ========
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
