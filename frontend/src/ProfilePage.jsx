@@ -87,8 +87,8 @@ const ProfilePage = () => {
 
         if (response.ok) {
             alert("Progress reset successfully!");
-
-            window.location.reload();
+            navigate('/Home');
+          
         } else {
             const data = await response.json();
             alert(data.msg || "Failed to reset progress.");
