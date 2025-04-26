@@ -96,6 +96,22 @@ input, button {
   margin-bottom: 50px;
 }
 
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.icon {
+  animation: fadeSlide 1s ease forwards;
+}
+
+
 .form-container {
   padding-top: 60px;
   padding-bottom: 60px;
