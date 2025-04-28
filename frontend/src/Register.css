@@ -71,6 +71,12 @@ body, html, #root {
   cursor: pointer;
 }
 
+.register-form button:hover {
+  background-color: #66b3ff;
+}
+
+
+
 .login-link {
   color: #33d6ff;
   cursor: pointer;
