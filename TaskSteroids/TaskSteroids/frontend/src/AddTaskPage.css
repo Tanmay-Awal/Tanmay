@@ -1,0 +1,300 @@
+
+:root {
+    --primary-color: #5fe0ff;
+    --primary-dark: #33c5e5;
+    --accent-color: #ff7e5f;
+    --background-color: #000000;
+    --card-background: #111111;
+    --text-color: #ffffff;
+    --text-secondary: #aaaaaa;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+  }
+  
+  .add-task-container {
+    min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .nav-links a {
+    position: relative;
+    padding: 0.5rem 0;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+  
+  .nav-links a:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+  }
+  
+  .nav-links a:hover:after,
+  .nav-links a.active:after {
+    width: 100%;
+  }
+  
+  .form-container {
+    max-width: 800px;
+    width: 90%;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .form-header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    background: linear-gradient(to right, var(--primary-color), var(--text-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .back-button {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  
+  .back-button:hover {
+    color: var(--primary-dark);
+    transform: translateX(-3px);
+  }
+  
+  .task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .form-group.half {
+    flex: 1;
+  }
+  
+  label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  
+  input,
+  textarea,
+  select {
+    padding: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+  }
+  
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(95, 224, 255, 0.2);
+  }
+  
+  input.error,
+  textarea.error,
+  select.error {
+    border-color: var(--danger-color);
+    background-color: rgba(231, 76, 60, 0.1);
+  }
+  
+  .error-message {
+    color: var(--danger-color);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+  }
+  
+  .form-error {
+    padding: 0.9rem;
+    background-color: rgba(231, 76, 60, 0.1);
+    border-left: 3px solid var(--danger-color);
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .btn {
+    padding: 0.9rem 1.8rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn:active {
+    transform: scale(0.98);
+  }
+  
+  .btn.primary {
+    background-color: var(--primary-color);
+    color: #000;
+    font-weight: bold;
+  }
+  
+  .btn.primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn.primary:disabled {
+    background-color: rgba(95, 224, 255, 0.3);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .btn.secondary {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    height: 75px;
+  }
+  
+  .btn.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  ::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+  }
+  
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235fe0ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    padding-right: 2.5rem;
+    background-color: #222;       
+    color: white;
+    border: 1px solid #555;
+  }
+
+  select option {
+    background-color: #333;       
+    color: white;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: #00bfff;
+    box-shadow: 0 0 5px #00bfff;
+  }
+  
+  
+  
+  input[type="date"] {
+    color-scheme: dark;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+    
+    .navbar {
+      padding: 0.8rem 1.2rem;
+    }
+    
+    .nav-links {
+      gap: 1rem;
+    }
+    
+    .form-container {
+      padding: 1.5rem;
+      width: 92%;
+      margin: 1.5rem auto;
+    }
+    
+    .form-buttons {
+      flex-direction: column;
+    }
+    
+    .btn {
+      width: 100%;
+    }
+  }

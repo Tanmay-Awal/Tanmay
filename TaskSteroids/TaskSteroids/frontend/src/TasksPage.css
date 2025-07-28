@@ -1,0 +1,681 @@
+
+:root {
+    --primary-color: #5fe0ff;
+    --primary-dark: #33c5e5;
+    --accent-color: #ff7e5f;
+    --background-color: #000000;
+    --card-background: #111111;
+    --text-color: #ffffff;
+    --text-secondary: #aaaaaa;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+  }
+  
+  .tasks-container {
+    min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .nav-links a {
+    position: relative;
+    padding: 0.5rem 0;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+  
+  .nav-links a:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+  }
+  
+  .nav-links a:hover:after,
+  .nav-links a.active:after {
+    width: 100%;
+  }
+  
+  .tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    background: linear-gradient(to right, rgba(95, 224, 255, 0.1), rgba(0, 0, 0, 0));
+  }
+  
+  .tasks-header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    background: linear-gradient(to right, var(--primary-color), var(--text-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .add-task-button {
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
+    background-color: var(--primary-color);
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .add-task-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .task-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--card-background);
+    border-radius: 8px;
+    margin: 0 2rem 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .filter-controls,
+  .sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .filter-controls label,
+  .sort-controls label {
+    font-weight: bold;
+  }
+  
+  .filter-controls select,
+  .sort-controls select {
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .filter-controls select:focus,
+  .sort-controls select:focus {
+    border-color: var(--primary-color);
+  }
+  
+  .view-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .view-button {
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 35px;
+    margin-top: 45px;
+  }
+  
+  .view-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .view-button.active {
+    background-color: var(--primary-color);
+    color: #000;
+    border-color: var(--primary-color);
+  }
+  
+  .tasks-content {
+    flex: 1;
+    padding: 0 2rem 2rem;
+  }
+  
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+  }
+  
+  .no-tasks-message {
+    text-align: center;
+    padding: 3rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: var(--text-secondary);
+  }
+  
+  .no-tasks-message p:first-child {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .task-card {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 150px;
+  }
+  
+  .task-card:hover {                                                            
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  .task-card.completed {
+    opacity: 0.7;
+    border-left: 4px solid var(--success-color);
+  }
+  
+  .task-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .task-checkbox {
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .task-title {
+    flex: 1;
+    margin: 0;
+    font-size: 1.3rem;
+  }
+  
+  .task-priority {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  
+  .task-priority.high {
+    background-color: var(--danger-color);
+  }
+  
+  .task-priority.medium {
+    background-color: var(--warning-color);
+  }
+  
+  .task-priority.low {
+    background-color: var(--success-color);
+  }
+  
+  .task-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: -50px;
+  }
+  
+  .task-description {
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  
+  .task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .task-deadline, .task-category {
+    font-size: 0.9rem;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+    color: var(--text-secondary);
+  }
+  
+  .task-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .edit-button, .delete-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: -10px;
+  }
+  
+  .edit-button {
+    background-color: var(--primary-color);
+    color: #000;
+    text-decoration: none;
+    height: 40px;
+  }
+  
+  .edit-button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  .delete-button {
+    background-color: rgba(231, 76, 60, 0.2);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+    height: 40px;
+  }
+  
+  .delete-button:hover {
+    background-color: var(--danger-color);
+    color: white;
+  }
+  
+  .kanban-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    height: 100%;
+  }
+  
+  .kanban-column {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+  }
+  
+  .kanban-column-header {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+  }
+  
+  .kanban-cards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+  
+  .kanban-cards::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .kanban-cards::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .kanban-cards::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+  }
+  
+  .kanban-card {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    height: 150px;
+  }
+  
+  .kanban-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .kanban-card-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  .kanban-card-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .kanban-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-top: -20px;
+  }
+  
+  .kanban-card-deadline {
+    color: var(--text-secondary);
+  }
+  
+  .kanban-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .status-toggle {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    background-color: var(--primary-color);
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 50px;
+    width: 100px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .edit-icon, .delete-icon {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+  
+  .edit-icon:hover, .delete-icon:hover {
+    opacity: 1;
+  }
+  
+  .empty-column-message {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+  
+  .tasks-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: var(--card-background);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .stat-label {
+    color: var(--text-secondary);
+  }
+  
+  .stat-value {
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  
+  .progress-container {
+    flex: 1;
+    max-width: 300px;
+    margin-left: auto;
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+  }
+  
+  @media (max-width: 768px) {
+    .tasks-header,
+    .task-controls,
+    .tasks-content,
+    .tasks-stats {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  
+    .task-controls {
+      flex-direction: column;
+      align-items: stretch;
+      margin: 0 1rem 1rem;
+    }
+  
+    .tasks-stats {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .progress-container {
+      width: 100%;
+      max-width: none;
+      margin-top: 1rem;
+    }
+  
+    .kanban-board {
+      grid-template-columns: 1fr;
+    }
+  }
+
+.task-edit-form {
+  padding: 15px;
+  background-color: black;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.save-button,
+.cancel-button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.save-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #45a049;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+}
+
+.kanban-edit-container {
+  padding: 10px;
+}
+
+.progress-text {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.task-checkbox {
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+  transition: transform 0.2s;
+}
+
+.task-checkbox:hover {
+  transform: scale(1.1);
+}
+
+.edit-button,
+.delete-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  margin-top: 30px;
+}
+
+.edit-button {
+  background-color: #2196F3;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #0b7dda;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+
+.edit-icon,
+.delete-icon {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.edit-icon:hover,
+.delete-icon:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+  

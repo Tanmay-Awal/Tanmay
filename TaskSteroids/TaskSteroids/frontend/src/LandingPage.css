@@ -1,0 +1,134 @@
+.landing-container {
+  min-height: 100vh;
+  background-color: #000;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #1f1f1f;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #2e2e2e;
+}
+
+.app-title {
+  color: #61dafb;
+  font-size: 1.5rem;
+  margin: 0;
+  width: 100px;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.typing-quote {
+  color: white;
+  font-style: italic;
+  text-align: center;
+  font-size: 1.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0ch;
+  display: inline-block;
+  margin-top: -90px;
+  animation: typing 4s steps(48) forwards;
+  position: relative;
+}
+
+/* Typing animation */
+@keyframes typing {
+  from {
+    width: 0ch;
+  }
+}
+
+  .button-group {
+    margin-top: 40px;
+    display: flex;
+    gap: 50px;
+  }
+.typing-quote::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: white;
+  animation: blink 0.7s steps(1) infinite;
+  animation-delay: 0s;
+}
+  button:hover {
+    background-color: #8eb1d1; 
+  }
+  
+  .btn {
+    background-color: #61dafb;
+    color: black;
+    padding: 12px 24px;
+    border: none;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+    width: 400px;
+    border-radius: 50px;
+
+/* Blinking effect */
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.typing-quote.done::after {
+  display: none;
+}
+
+.button-group {
+  margin-top: 40px;
+  display: flex;
+  gap: 50px;
+}
+
+button:hover {
+  background-color: #8eb1d1; /* Lighter blue */
+}
+
+.btn {
+  background-color: #61dafb;
+  color: black;
+  padding: 12px 24px;
+  border: none;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease; /* updated slightly to allow animation */
+  width: 400px;
+  border-radius: 10px; /* Rounded corners */
+}
+
+.btn:hover {
+  background-color: #3ec8f1;
+  transform: scale(1.03); /* Slight pulse */
+}
+
+/* Optional: smooth scaling animation */
+.btn {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+}

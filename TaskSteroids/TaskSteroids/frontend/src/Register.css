@@ -1,0 +1,134 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+}
+
+.register-wrapper {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  height: 80%;
+  background-color: black;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.register-container {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 80px;
+  border-radius: 15px;
+}
+
+.register-title {
+  font-size: 32px;
+  font-style: italic;
+  margin-bottom: 30px;
+  color: white;
+  margin-left: 15px;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.register-form input{
+  color: black;
+}
+
+.register-form input,
+.register-form button {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 55px;
+  border: none;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+
+  button:hover {
+    background-color: #00bfff; 
+}
+
+
+}
+
+.register-form input {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
+.register-form input::placeholder {
+  color:black;
+  opacity: 1;
+  opacity: 1; 
+}
+
+
+.register-form button {
+  background-color: #33d6ff;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-link {
+  color: #33d6ff;
+  cursor: pointer;
+  text-align: center;
+}
+
+.register-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.register-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+input, button {
+  height: 75px; 
+  margin-bottom: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.icon {
+  animation: fadeSlide 1s ease forwards;
+}
+
+
+.form-container {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
