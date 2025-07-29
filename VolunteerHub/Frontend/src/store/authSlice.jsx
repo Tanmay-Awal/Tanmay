@@ -35,7 +35,35 @@ export const submitLogin = createAsyncThunk(
         return rejectWithValue(result.message || "Invalid credentials");
       }
     } catch (err) {
-      return rejectWithValue(err.message || "Something went wrong.");
+      console.error("Login error:", err);
+      
+      if (err.message) {
+        if (err.message.toLowerCase().includes('incorrect password') || 
+            err.message.toLowerCase().includes('password')) {
+          return rejectWithValue({ 
+            type: 'password', 
+            message: err.message 
+          });
+        }
+        
+        if (err.message.toLowerCase().includes('user not found') || 
+            err.message.toLowerCase().includes('email')) {
+          return rejectWithValue({ 
+            type: 'email', 
+            message: err.message 
+          });
+        }
+        
+        return rejectWithValue({ 
+          type: 'general', 
+          message: err.message 
+        });
+      }
+      
+      return rejectWithValue({ 
+        type: 'general', 
+        message: 'Something went wrong. Please try again.' 
+      });
     }
   }
 );
@@ -114,7 +142,15 @@ const authSlice = createSlice({
       })
       .addCase(submitLogin.rejected, (state, action) => {
         state.isLoading = false;
-        state.errors.general = action.payload;
+        
+        if (action.payload && typeof action.payload === 'object' && action.payload.type) {
+          const { type, message } = action.payload;
+          state.errors[type] = message;
+        } else if (typeof action.payload === 'string') {
+          state.errors.general = action.payload;
+        } else {
+          state.errors.general = 'Something went wrong. Please try again.';
+        }
       });
   },
 });

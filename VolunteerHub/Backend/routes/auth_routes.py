@@ -11,47 +11,20 @@ from datetime import datetime, timedelta
 from email_service import send_email 
 import textwrap
 import random
+import threading
+import time
 
 auth_routes = Blueprint('auth_routes', __name__)
 
 def hash_password(password):
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-# ✅ Helper function to verify password
 def verify_password(password, hashed_password):
     return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
 
 
-
-
-
-@auth_routes.route('/auth/register', methods=['POST'])
-@cross_origin(origins="http://localhost:3000")
-def register():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-    role = data.get('role')
-
-    if not all([email, role]):
-        return jsonify({'message': 'Email and role are required'}), 400
-    
-    if not password:
-        return jsonify({'message': 'Password is required for email registration'}), 400
-
-    email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-    if not re.match(email_regex, email):
-        return jsonify({'message': 'Invalid email format'}), 400
-
-    if User.objects(email=email).first():
-        return jsonify({'message': 'User already exists'}), 400
-
-    hashed_password = hash_password(password)
-    user = User(email=email, password=hashed_password, role=role)
-    user.save()
-
-    print("✅ Registered user ID:", str(user.id))
-
+def send_welcome_email_async(email):
+    """Send welcome email in background thread"""
     try:
         body = """Thank you for registering with Volunteer Hub , your trusted platform for connecting passionate individuals and impactful organizations. We are excited to have you as part of our growing community.
 
@@ -71,8 +44,55 @@ The Volunteer Hub Team
             subject="Thank you for registering at Volunteer Hub!",
             body=textwrap.dedent(body)
         )
+        print(f"✅ Welcome email sent to {email}")
     except Exception as e:
         print(f"⚠️ Email sending failed: {str(e)}")
+
+@auth_routes.route('/auth/register', methods=['POST'])
+@cross_origin(origins="http://localhost:3000")
+def register():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    role = data.get('role')
+
+    if not all([email, role]):
+        return jsonify({'message': 'Email and role are required'}), 400
+    
+    if not password:
+        return jsonify({'message': 'Password is required for email registration'}), 400
+
+    email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    if not re.match(email_regex, email):
+        return jsonify({'message': 'Invalid email format'}), 400
+
+    existing_user = User.objects(email=email).first()
+    if existing_user:
+        return jsonify({'message': 'User already exists'}), 400
+
+    hashed_password = hash_password(password)
+    user = User(
+        email=email, 
+        password=hashed_password, 
+        role=role,
+        name="",  
+        phone="",
+        bio="",
+        skills=[],
+        pastExperience=[],
+        totalHours="0",
+        completedTasks="0",
+        badges="",
+        impactScore="0",
+        address=""
+    )
+    user.save()
+
+    print("✅ Registered user ID:", str(user.id))
+
+    email_thread = threading.Thread(target=send_welcome_email_async, args=(email,))
+    email_thread.daemon = True
+    email_thread.start()
 
     return jsonify({
         'success': True,
@@ -446,7 +466,6 @@ def reset_password():
         return jsonify({'success': False, 'message': 'User not found'}), 404
     user.password = hash_password(new_password)
     user.save()
-    # Delete OTP after use
     otp.delete()
     return jsonify({'success': True, 'message': 'Password reset successful'}), 200
 

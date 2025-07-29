@@ -78,6 +78,32 @@ const NgoDashboard = () => {
     navigate('/login');
   };
 
+  const formatTime = (timestamp) => {
+    if (!timestamp) return 'N/A';
+    
+    try {
+      const date = new Date(timestamp);
+      
+      // Check if the date is valid
+      if (isNaN(date.getTime())) {
+        return 'Invalid time';
+      }
+      
+      // Format for user's local timezone
+      return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return 'Invalid time';
+    }
+  };
+
   const profileData = useSelector(ngoSettingsSelectors.getProfile);
   const ngoNotifications = useSelector(ngoNotificationsSelectors.getList);
   const unreadNgo = ngoNotifications.filter(n => !n.read);
@@ -158,7 +184,7 @@ const NgoDashboard = () => {
                           <div className="ngo-notification-content">
                             <h5>{notification.title}</h5>
                             <p>{notification.message}</p>
-                            <span className="ngo-notification-time">{notification.time}</span>
+                            <span className="ngo-notification-time">{formatTime(notification.time)}</span>
                           </div>
                         </div>
                       ))

@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import './NgoOpportunities.css';
 
 const NgoOpportunities = () => {
-  // Your state management will go here
 
 
   const dispatch = useDispatch();
@@ -25,7 +24,7 @@ const NgoOpportunities = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [selectedOpportunity, setSelectedOpportunity] = React.useState(null);
   const [imagePreview, setImagePreview] = React.useState(null);
-  const navigate = useNavigate(); // Assuming you're using react-router for navigation
+  const navigate = useNavigate(); 
 
 
   useEffect(() => {
@@ -45,13 +44,12 @@ const NgoOpportunities = () => {
 });
 
 
-  // Your API calls and handlers will go here
   const handleAddOpportunity = () => {
-    navigate('/add-opportunity'); // Navigate to Add Opportunity page
+    navigate('/add-opportunity'); 
   };
   
   const handleEditOpportunity = (id) => {
-    navigate(`/edit-opportunity/${id}`); // Navigate to Edit Opportunity page
+    navigate(`/edit-opportunity/${id}`); 
   };
   
   const handleDeleteOpportunity = async (id) => {
@@ -70,7 +68,6 @@ const NgoOpportunities = () => {
   const newStatus = opportunity.status === 'Open' ? 'Closed' : 'Open';
 
   try {
-    // Prepare only the status field for update
     const formPayload = new FormData();
     formPayload.append("title", opportunity.title);
     formPayload.append("description", opportunity.description);
@@ -79,12 +76,11 @@ const NgoOpportunities = () => {
     opportunity.tags.forEach(tag => formPayload.append("tags[]", tag));
     formPayload.append("status", newStatus);
 
-    // No need to update image here, skip or handle carefully
 
     await dispatch(editOpportunity({ id: opportunity.id, formData: formPayload })).unwrap();
 
     toast.success(`Status updated to ${newStatus}!`);
-    await dispatch(fetchOpportunities()); // OR update local state for instant UI
+    await dispatch(fetchOpportunities()); 
   } catch (err) {
     console.error(err);
     toast.error("Could not toggle status.");
@@ -214,7 +210,6 @@ const NgoOpportunities = () => {
           ))}
         </div>
 
-        {/* Add/Edit Modal */}
         {showModal && (
           <div className="modal-overlay">
             <div className="modal-container">
@@ -304,9 +299,7 @@ const NgoOpportunities = () => {
           </div>
         )}
 
-        {/* Toast notifications will be handled by your state management */}
         <div className="toast-container">
-          {/* Success/Error toasts go here */}
         </div>
       </div>
     </>

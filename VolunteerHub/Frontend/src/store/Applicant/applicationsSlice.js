@@ -3,6 +3,7 @@ import { fetchMyApplications, createApplication as createApplicationService } fr
 import { deleteApplication as deleteApplicationService } from "../../services/Applicant/applicationsService";
 
 
+// 👉 Thunk: Get user’s applications
 export const getMyApplications = createAsyncThunk(
   "applications/getMyApplications",
   async (email, { rejectWithValue }) => {
@@ -15,11 +16,18 @@ export const getMyApplications = createAsyncThunk(
   }
 );
 
+// 👉 Thunk: Create a new application
 export const createApplication = createAsyncThunk(
   "applications/createApplication",
-  async (applicationData, { rejectWithValue }) => {
+  async (applicationData, { rejectWithValue, dispatch }) => {
     try {
       const result = await createApplicationService(applicationData);
+      
+      // ✅ Refresh applications list after successful creation
+      if (applicationData.volunteerEmail) {
+        await dispatch(getMyApplications(applicationData.volunteerEmail));
+      }
+      
       return result;
     } catch (err) {
       return rejectWithValue(err.message || "Failed to create application.");
@@ -47,7 +55,7 @@ const applicationsSlice = createSlice({
     list: [],
     isLoading: false,
     error: "",
-    applyLoading: false,
+    applyLoading: false,  // ✅ For APPLY button spinner
   },
   reducers: {
     clearApplications(state) {
@@ -57,6 +65,7 @@ const applicationsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Get My Applications
       .addCase(getMyApplications.pending, (state) => {
         state.isLoading = true;
         state.error = "";
@@ -70,6 +79,7 @@ const applicationsSlice = createSlice({
         state.error = action.payload;
       })
 
+      // Create Application
       .addCase(createApplication.pending, (state) => {
         state.applyLoading = true;
       })
@@ -92,7 +102,7 @@ export const applicationsSelectors = {
   getApplicationsList: (state) => state.applications.list,
   getIsLoading: (state) => state.applications.isLoading,
   getApplicationsError: (state) => state.applications.error,
-  getApplyLoading: (state) => state.applications.applyLoading,
+  getApplyLoading: (state) => state.applications.applyLoading, // ✅
 };
 
 export default applicationsSlice.reducer;

@@ -60,7 +60,39 @@ const Notifications = () => {
   };
 
   const formatTime = (timestamp) => {
-    return new Date(timestamp).toLocaleString();
+    if (!timestamp) return 'N/A';
+    
+    console.log("🔍 formatTime called with timestamp:", timestamp);
+    
+    try {
+      
+      const date = new Date(timestamp);
+      console.log("🔍 Parsed date:", date);
+      console.log("🔍 Date.getTime():", date.getTime());
+      console.log("🔍 Is NaN:", isNaN(date.getTime()));
+      
+      
+      if (isNaN(date.getTime())) {
+        console.log("🔍 Invalid date detected");
+        return 'Invalid time';
+      }
+      
+      
+      const formatted = date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+      
+      console.log("🔍 Formatted result:", formatted);
+      return formatted;
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return 'Invalid time';
+    }
   };
 
   return (

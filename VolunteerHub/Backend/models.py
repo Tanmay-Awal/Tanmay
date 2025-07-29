@@ -9,6 +9,14 @@ class User(Document):
     email = EmailField(required=True, unique=True)
     password = StringField()  
     role = StringField(required=True)
+    
+    meta = {
+        'indexes': [
+            'email', 
+            'role',
+            'google_id'
+        ]
+    }
     name = StringField()
     phone = StringField()  
     bio = StringField()
@@ -19,7 +27,6 @@ class User(Document):
     badges = StringField()
     impactScore = StringField()
     address = StringField()
-    # Google Auth fields
     google_id = StringField()
 
 
@@ -72,7 +79,9 @@ class Application(Document):
     volunteerAddress = StringField()
     volunteerSkills = ListField(StringField())
     volunteerExperience = ListField(DictField())
-    isDeleted = BooleanField(default=False)
+    isDeleted = BooleanField(default=False) 
+    isDeletedByVolunteer = BooleanField(default=False)  
+    finalStatus = StringField() 
 
 
 

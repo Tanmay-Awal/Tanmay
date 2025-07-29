@@ -17,15 +17,17 @@ def get_ngo_reports():
 
     ngo_id = ngo.id
 
-
     total_opportunities = Opportunity.objects(organization=ngo_id).count()
 
     ngo_opportunity_ids = [str(opp.id) for opp in Opportunity.objects(organization=ngo_id)]
     total_applications = Application.objects(opportunityId__in=ngo_opportunity_ids).count()
 
-
-    total_volunteers = Task.objects(ngo_id=ngo_id).count()
-
+    
+    active_tasks = Task.objects(ngo_id=ngo_id, verified__ne='Rejected')
+    unique_volunteer_emails = set()
+    for task in active_tasks:
+        unique_volunteer_emails.add(task.user_email)
+    total_volunteers = len(unique_volunteer_emails)
 
     total_tasks_completed = Task.objects(ngo_id=ngo_id, verified="Approved").count()
 

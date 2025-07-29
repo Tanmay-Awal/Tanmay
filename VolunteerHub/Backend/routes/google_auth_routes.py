@@ -11,6 +11,8 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 from datetime import timedelta
 from email_service import send_email
 import textwrap
+import threading
+import time
 
 google_auth_routes = Blueprint('google_auth_routes', __name__)
 
@@ -34,6 +36,31 @@ def get_google_user_info(access_token):
     except Exception as e:
         print(f"Error getting Google user info: {e}")
         return None
+
+def send_welcome_email_async(email):
+    """Send welcome email in background thread"""
+    try:
+        body = """Thank you for registering with Volunteer Hub , your trusted platform for connecting passionate individuals and impactful organizations. We are excited to have you as part of our growing community.
+
+Whether you are here to contribute your time and skills or to create opportunities that make a difference, we are committed to supporting you every step of the way.
+
+If you have any questions or need help getting started, our team is always ready to assist.
+
+Together, we can build stronger communities and drive meaningful change.
+
+Thank you for being with us.
+
+Warm regards,
+The Volunteer Hub Team
+"""
+        send_email(
+            to_email=email,
+            subject="Thank you for registering at Volunteer Hub!",
+            body=textwrap.dedent(body)
+        )
+        print(f"✅ Welcome email sent to {email}")
+    except Exception as e:
+        print(f"⚠️ Email sending failed: {str(e)}")
 
 @google_auth_routes.route('/auth/google/login', methods=['POST', 'OPTIONS'])
 @cross_origin(origins="http://localhost:3000")
@@ -122,26 +149,25 @@ def google_signup():
         if not access_token:
             return jsonify({'message': 'Google access token is required'}), 400
         
-
+        
         user_info = get_google_user_info(access_token)
         if not user_info:
             return jsonify({'message': 'Failed to get user info from Google'}), 400
         
-
         print(f"🔍 Google user info: {user_info}")
         
-
+        
         google_user_id = user_info['id']
         email = user_info['email']
         name = user_info.get('name', '')  
         
         print(f"🔍 Extracted - Google ID: {google_user_id}, Email: {email}")
         
-
+        
         if User.objects(email=email).first():
             return jsonify({'message': 'User already exists with this email'}), 400
         
-
+        
         user = User(
             email=email,
             google_id=google_user_id,
@@ -149,29 +175,10 @@ def google_signup():
         )
         user.save()
 
-        try:
-            body = f"""Dear {name},
-
-Thank you for registering with Volunteer Hub , your trusted platform for connecting passionate individuals and impactful organizations. We are excited to have you as part of our growing community.
-
-Whether you are here to contribute your time and skills or to create opportunities that make a difference, we are committed to supporting you every step of the way.
-
-If you have any questions or need help getting started, our team is always ready to assist.
-
-Together, we can build stronger communities and drive meaningful change.
-
-Thank you for being with us.
-
-Warm regards,
-The Volunteer Hub Team
-"""
-            send_email(
-                to_email=email,
-                subject="Thank you for registering at Volunteer Hub!",
-                body=textwrap.dedent(body)
-            )
-        except Exception as e:
-            print(f"⚠️ Email sending failed: {str(e)}")
+        
+        email_thread = threading.Thread(target=send_welcome_email_async, args=(email,))
+        email_thread.daemon = True
+        email_thread.start()
         
         print(f"✅ Created new user via Google signup: {email} as {role}")
         

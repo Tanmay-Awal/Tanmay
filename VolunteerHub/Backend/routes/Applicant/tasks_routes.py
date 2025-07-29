@@ -78,7 +78,6 @@ def verify_task(task_id):
     task.admin_verification_message = message
     task.save()
 
-    # Notify volunteer
     user = User.objects(email=task.user_email).first()
     notif = Notification(
         user_id=user,

@@ -15,14 +15,22 @@ const MyApplications = () => {
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
         const email = localStorage.getItem('user_email');
+        console.log("🔍 MyApplications - user_email from localStorage:", email);
         if (email) {
+          console.log("🔍 MyApplications - Dispatching getMyApplications with email:", email);
           dispatch(getMyApplications(email));
+        } else {
+          console.log("🔍 MyApplications - No user_email found in localStorage");
         }
       }
     } catch (error) {
       console.error('Error accessing localStorage:', error);
     }
   }, [dispatch]);
+
+  // Debug: Log applications state
+  console.log("🔍 MyApplications - applications from Redux:", applications);
+  console.log("🔍 MyApplications - applications length:", applications?.length);
 
   const getStatusIcon = (status) => {
     if (!status) return <Clock className="status-icon" />;
@@ -54,6 +62,31 @@ const MyApplications = () => {
       });
     } catch (error) {
       return "N/A";
+    }
+  };
+
+  const formatDateTime = (dateString) => {
+    if (!dateString) return "N/A";
+    try {
+      const date = new Date(dateString);
+      
+      // Check if the date is valid
+      if (isNaN(date.getTime())) {
+        return 'Invalid time';
+      }
+      
+      // Format for user's local timezone
+      return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return 'Invalid time';
     }
   };
 

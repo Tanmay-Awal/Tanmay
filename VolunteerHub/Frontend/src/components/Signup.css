@@ -221,6 +221,21 @@
   cursor: not-allowed;
 }
 
+.loading-info {
+  text-align: center;
+  margin-top: 15px;
+  color: #666;
+}
+
+.loading-info p {
+  margin: 5px 0;
+}
+
+.loading-detail {
+  font-size: 0.9em;
+  color: #888;
+}
+
 .general-error {
   color: #ef4444;
   background: #fef2f2;

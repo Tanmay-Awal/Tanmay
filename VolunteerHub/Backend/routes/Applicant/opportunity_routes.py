@@ -40,14 +40,12 @@ def get_single_opportunity(id):
         if opp.startDate:
             opp_data["startDate"] = opp.startDate.isoformat()
 
-
         opp_data["title"] = opp.title
         opp_data["description"] = opp.description
         opp_data["location"] = opp.location
         opp_data["tags"] = opp.tags
         opp_data["image"] = opp.image
         opp_data["status"] = opp.status
-
 
         if opp.organization:
             ngo = opp.organization

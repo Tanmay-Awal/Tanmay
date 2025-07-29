@@ -71,17 +71,7 @@ const Signup = () => {
     if (hasError) {
       return;
     }
-    dispatch(submitRegistration({ formData, navigate })).then((action) => {
-      if (action.payload && action.payload.message) {
-        if (action.payload.message.toLowerCase().includes('email')) {
-          dispatch(signupActions.setError({ field: 'email', message: action.payload.message }));
-        } else if (action.payload.message.toLowerCase().includes('password')) {
-          dispatch(signupActions.setError({ field: 'password', message: action.payload.message }));
-        } else if (action.payload.message.toLowerCase().includes('role')) {
-          dispatch(signupActions.setError({ field: 'role', message: action.payload.message }));
-        }
-      }
-    });
+    dispatch(submitRegistration({ formData, navigate }));
   };
 
   const handleLoginRedirect = () => {
@@ -109,7 +99,17 @@ const Signup = () => {
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Backend error:', errorData);
-        throw new Error(errorData.message || 'Google signup failed');
+        
+        if (response.status === 400) {
+          if (errorData.message && errorData.message.toLowerCase().includes('already exists')) {
+            throw new Error('An account with this email already exists. Please use a different email or try logging in.');
+          }
+          throw new Error(errorData.message || 'Invalid request. Please check your information.');
+        } else if (response.status === 500) {
+          throw new Error('Server error. Please try again later.');
+        } else {
+          throw new Error(errorData.message || 'Google signup failed. Please try again.');
+        }
       }
 
       const data = await response.json();
@@ -271,6 +271,13 @@ const Signup = () => {
               >
                 {isLoading ? 'Creating Account...' : 'Create Account'}
               </button>
+              
+              {isLoading && (
+                <div className="loading-info">
+                  <p>Setting up your account...</p>
+                  <p className="loading-detail">This should take just a few seconds</p>
+                </div>
+              )}
 
               <div className="auth-divider">
                 <span>or</span>

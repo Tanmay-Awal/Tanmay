@@ -35,7 +35,39 @@ const NgoNotifications = () => {
   };
 
   const formatTime = (timestamp) => {
-    return new Date(timestamp).toLocaleString();
+    if (!timestamp) return 'N/A';
+    
+    console.log("🔍 NgoNotifications formatTime called with timestamp:", timestamp);
+    
+    try {
+      // Ensure timestamp is treated as UTC if it has 'Z' suffix
+      const date = new Date(timestamp);
+      console.log("🔍 NgoNotifications Parsed date:", date);
+      console.log("🔍 NgoNotifications Date.getTime():", date.getTime());
+      console.log("🔍 NgoNotifications Is NaN:", isNaN(date.getTime()));
+      
+      // Check if the date is valid
+      if (isNaN(date.getTime())) {
+        console.log("🔍 NgoNotifications Invalid date detected");
+        return 'Invalid time';
+      }
+      
+      // Format for user's local timezone (this will automatically convert UTC to local)
+      const formatted = date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+      
+      console.log("🔍 NgoNotifications Formatted result:", formatted);
+      return formatted;
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return 'Invalid time';
+    }
   };
 
   const handleDeleteNgoNotification = (id) => {

@@ -1,4 +1,4 @@
-# backend/notifications_routes.py
+
 
 from flask import Blueprint, request, jsonify
 from models import Notification
@@ -25,13 +25,17 @@ def get_notifications(user_id):
     print(f"🔍 Found {notifications.count()} notifications")
     result = []
     for n in notifications:
+        time_iso = n.time.isoformat() + 'Z' if n.time else None
+        print(f"🔍 Notification {n.id} - Original time: {n.time}")
+        print(f"🔍 Notification {n.id} - ISO format with Z: {time_iso}")
+        
         result.append({
             'id': str(n.id),
             'title': n.title,
             'message': n.message,
             'type': n.type,
             'read': n.read,
-            'time': n.time.strftime('%Y-%m-%d %H:%M')
+            'time': time_iso
         })
     print(f"🔍 Returning {len(result)} notifications")
     return jsonify({'success': True, 'data': result}), 200

@@ -1,12 +1,13 @@
 import React from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createApplication, applicationsSelectors } from "../../store/Applicant/applicationsSlice";
+import { createApplication, applicationsSelectors, getMyApplications } from "../../store/Applicant/applicationsSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { Eye, Edit, Trash2 } from 'lucide-react';
 
 import { getSingleOpportunity, checkProfileComplete } from "../../services/Applicant/opportunityService";
+import { canApplyForOpportunity } from "../../services/Applicant/applicationsService";
 
 import './ApplyOpportunity.css';
 
@@ -27,6 +28,7 @@ const [profileComplete, setProfileComplete] = React.useState(true);
 const [profileLoading, setProfileLoading] = React.useState(true);
 
 useEffect(() => {
+  // ✅ Check profile completeness first
   const checkProfile = async () => {
     try {
       const profileData = await checkProfileComplete();
@@ -47,7 +49,7 @@ useEffect(() => {
     .then(res => setOpportunityData(res.data))
     .catch(err => {
       console.error(err);
-      navigate("/opportunities");  
+      navigate("/opportunities");  // 👈 Go back to volunteer opportunities, NOT NGO
     });
 }, [id, navigate]);
 
@@ -56,8 +58,23 @@ if (!opportunityData) return <div>Loading...</div>;
 
 
 const handleApply = async () => {
+  // ✅ Check if profile is complete before applying
   if (!profileComplete) {
     toast.error("Please complete your profile before applying for opportunities.");
+    return;
+  }
+
+  // ✅ Check if user can apply for this opportunity
+  try {
+    const canApplyResult = await canApplyForOpportunity(id);
+    if (!canApplyResult.canApply) {
+      toast.error(`Cannot apply: ${canApplyResult.reason}`);
+      navigate("/opportunities");
+      return;
+    }
+  } catch (err) {
+    console.error("Error checking can apply:", err);
+    toast.error("Error checking application status. Please try again.");
     return;
   }
 
@@ -74,6 +91,7 @@ const handleApply = async () => {
 
   } catch (err) {
     console.error(err);
+    // ✅ Handle profile incomplete error specifically
     if (err.message && err.message.includes("Profile incomplete")) {
       toast.error("Please complete your profile before applying for opportunities.");
     } else {

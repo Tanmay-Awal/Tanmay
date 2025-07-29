@@ -28,7 +28,7 @@ def get_applications():
 
     applications = Application.objects(
         opportunityId__in=opp_ids,
-        isDeleted=False 
+        isDeleted=False  
     )
 
 

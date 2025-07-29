@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from flask_cors import cross_origin
-from models import User, Application, Opportunity
+from models import User, Application, Opportunity, Task
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 activity_routes = Blueprint('activity_routes', __name__)
@@ -20,15 +20,15 @@ def get_my_activity():
     if not user:
         return jsonify({'message': 'User not found'}), 404
 
-    approved_apps = Application.objects(volunteerEmail=email, status='Approved')
-
-    tasks_completed = approved_apps.count()
+    
+    verified_tasks = Task.objects(user_email=email, verified='Approved')
+    tasks_completed = verified_tasks.count()
     events_attended = tasks_completed
 
     ngo_ids = set()
-    for app in approved_apps:
-        if app.opportunityId and app.opportunityId.organization:
-            ngo_ids.add(str(app.opportunityId.organization.id))
+    for task in verified_tasks:
+        if task.ngo_id:
+            ngo_ids.add(str(task.ngo_id.id))
 
     ngos_helped = len(ngo_ids)
 

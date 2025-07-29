@@ -7,26 +7,26 @@ import { Search, MapPin, Calendar, Tag, Filter, Grid, List } from 'lucide-react'
 import './Opportunities.css';
 import { getOpportunities, opportunitiesSelectors } from '../../store/Applicant/opportunitiesSlice';
 import { getMyApplications, applicationsSelectors } from '../../store/Applicant/applicationsSlice';
+import { canApplyForOpportunity } from '../../services/Applicant/applicationsService';
 
 const Opportunities = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   
-
   const opportunities = useSelector(opportunitiesSelectors.getOpportunities) || [];
   const isLoading = useSelector(opportunitiesSelectors.getIsLoading) || false;
   const error = useSelector(opportunitiesSelectors.getError);
   const applications = useSelector(applicationsSelectors.getApplicationsList) || [];
   
-
   const authEmail = useSelector((state) => state.auth?.user?.email);
   console.log(authEmail);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [canApplyMap, setCanApplyMap] = useState({});
+  const [loadingCanApply, setLoadingCanApply] = useState({});
 
   const filteredOpportunities = opportunities.filter((opp) => {
     if (!opp) return false;
@@ -68,16 +68,55 @@ const Opportunities = () => {
     navigate(`/apply-opportunity/${opportunityId}`);
   };
 
+  const checkCanApply = async (opportunityId) => {
+    if (!authEmail) return;
+    
+    setLoadingCanApply(prev => ({ ...prev, [opportunityId]: true }));
+    
+    try {
+      const result = await canApplyForOpportunity(opportunityId);
+      setCanApplyMap(prev => ({ 
+        ...prev, 
+        [opportunityId]: result.canApply 
+      }));
+    } catch (error) {
+      console.error('Error checking can apply:', error);
+      setCanApplyMap(prev => ({ 
+        ...prev, 
+        [opportunityId]: false 
+      }));
+    } finally {
+      setLoadingCanApply(prev => ({ ...prev, [opportunityId]: false }));
+    }
+  };
 
-  const isApplied = (opportunityId) => {
+  const hasApplied = (opportunityId) => {
     if (!applications || !Array.isArray(applications)) return false;
     
-    return applications.some((app) => {
-
-      return app?.opportunity?.id === opportunityId || 
-             app?.opportunity?._id === opportunityId ||
-             app?.opportunityId === opportunityId;
+    const hasAppliedResult = applications.some((app) => {
+      const appOpportunityId = app?.opportunity?.id;
+      const matches = appOpportunityId === opportunityId || 
+                     appOpportunityId === opportunityId?.toString() ||
+                     appOpportunityId?.toString() === opportunityId;
+      return matches;
     });
+    
+    return hasAppliedResult;
+  };
+
+  const canApply = (opportunityId) => {
+    console.log("🔍 Opportunities - canApply called for ID:", opportunityId);
+    console.log("🔍 Opportunities - canApplyMap:", canApplyMap);
+    console.log("🔍 Opportunities - opportunityId in canApplyMap:", opportunityId in canApplyMap);
+    
+    if (opportunityId in canApplyMap) {
+      console.log("🔍 Opportunities - Using canApplyMap result:", canApplyMap[opportunityId]);
+      return canApplyMap[opportunityId];
+    }
+    
+    const fallbackResult = !hasApplied(opportunityId);
+    console.log("🔍 Opportunities - Using fallback result:", fallbackResult);
+    return fallbackResult;
   };
 
   useEffect(() => {
@@ -86,6 +125,20 @@ const Opportunities = () => {
       dispatch(getMyApplications(authEmail));
     }
   }, [dispatch, authEmail]);
+
+  useEffect(() => {
+    if (authEmail && paginatedOpportunities.length > 0) {
+      console.log("🔍 Opportunities - Checking can-apply for opportunities:", paginatedOpportunities.length);
+      paginatedOpportunities.forEach(opportunity => {
+        const id = opportunity._id || opportunity.id;
+        console.log("🔍 Opportunities - Checking opportunity ID:", id);
+        if (id && !(id in canApplyMap) && !loadingCanApply[id]) {
+          console.log("🔍 Opportunities - Calling checkCanApply for ID:", id);
+          checkCanApply(id);
+        }
+      });
+    }
+  }, [paginatedOpportunities, authEmail, canApplyMap, loadingCanApply]);
 
   return (
     <>
@@ -120,7 +173,6 @@ const Opportunities = () => {
                 if (!opportunity) return null;
                 
                 console.log(opportunity);
-                
 
                 const id = 
                   (typeof opportunity._id === "object" && opportunity._id?.$oid) ? opportunity._id.$oid :
@@ -143,7 +195,6 @@ const Opportunities = () => {
                           e.target.src = "https://via.placeholder.com/400x300";
                         }}
                       />
-
 
                       {opportunity.category && (
                         <div className="category-badge">
@@ -197,13 +248,21 @@ const Opportunities = () => {
                           ))}
                       </div>
 
-                      {isApplied(id) ? (
+                      {loadingCanApply[id] ? (
+                        <button className="apply-btn" disabled>
+                          Checking...
+                        </button>
+                      ) : hasApplied(id) ? (
                         <button className="apply-btn applied-btn" disabled>
                           Applied
                         </button>
-                      ) : (
+                      ) : canApply(id) ? (
                         <button className="apply-btn" onClick={() => handleApply(id)}>
                           Apply Now
+                        </button>
+                      ) : (
+                        <button className="apply-btn applied-btn" disabled>
+                          Previously Applied
                         </button>
                       )}
                     </div>

@@ -65,16 +65,7 @@ const Login = () => {
     if (hasError) {
       return;
     }
-    dispatch(submitLogin({ formData, navigate }))
-      .then((action) => {
-        if (action && action.error && action.error.message) {
-          if (action.payload && action.payload === 'Incorrect password') {
-            dispatch(authActions.setLoginError({ field: 'password', message: 'Incorrect password' }));
-          } else if (action.payload && typeof action.payload === 'string') {
-            dispatch(authActions.setLoginError({ field: 'general', message: action.payload }));
-          }
-        }
-      });
+    dispatch(submitLogin({ formData, navigate }));
   };
 
   const handleSignupRedirect = () => {
@@ -134,9 +125,13 @@ const Login = () => {
             navigate('/signup');
           }, 2000);
           return;
+        } else if (response.status === 400) {
+          throw new Error(errorData.message || 'Invalid request. Please check your information.');
+        } else if (response.status === 500) {
+          throw new Error('Server error. Please try again later.');
+        } else {
+          throw new Error(errorData.message || 'Google login failed. Please try again.');
         }
-        
-        throw new Error(errorData.message || 'Google login failed');
       }
 
       const data = await response.json();

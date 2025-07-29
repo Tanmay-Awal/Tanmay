@@ -22,7 +22,41 @@ export const submitRegistration = createAsyncThunk(
       return userData;
 
     } catch (err) {
-      return rejectWithValue(err.message || 'Something went wrong.');
+      console.error("Signup error:", err);
+      
+      if (err.message) {
+        if (err.message.toLowerCase().includes('already exists') || 
+            err.message.toLowerCase().includes('email')) {
+          return rejectWithValue({ 
+            type: 'email', 
+            message: err.message 
+          });
+        }
+        
+        if (err.message.toLowerCase().includes('password')) {
+          return rejectWithValue({ 
+            type: 'password', 
+            message: err.message 
+          });
+        }
+        
+        if (err.message.toLowerCase().includes('role')) {
+          return rejectWithValue({ 
+            type: 'role', 
+            message: err.message 
+          });
+        }
+        
+        return rejectWithValue({ 
+          type: 'general', 
+          message: err.message 
+        });
+      }
+      
+      return rejectWithValue({ 
+        type: 'general', 
+        message: 'Something went wrong. Please try again.' 
+      });
     }
   }
 );
@@ -137,7 +171,15 @@ const signupSlice = createSlice({
       })
       .addCase(submitRegistration.rejected, (state, action) => {
         state.isLoading = false;
-        state.errors.general = action.payload;
+        
+        if (action.payload && typeof action.payload === 'object' && action.payload.type) {
+          const { type, message } = action.payload;
+          state.errors[type] = message;
+        } else if (typeof action.payload === 'string') {
+          state.errors.general = action.payload;
+        } else {
+          state.errors.general = 'Something went wrong. Please try again.';
+        }
       })
       .addCase(submitNgoDetails.pending, (state) => {
         state.isLoading = true;
@@ -163,7 +205,13 @@ const signupSlice = createSlice({
       })
       .addCase(submitNgoDetails.rejected, (state, action) => {
         state.isLoading = false;
-        state.errors.general = action.payload;
+        
+
+        if (typeof action.payload === 'string') {
+          state.errors.general = action.payload;
+        } else {
+          state.errors.general = 'Failed to save NGO details. Please try again.';
+        }
       });
   },
 });

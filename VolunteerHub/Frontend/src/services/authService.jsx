@@ -14,10 +14,33 @@ export async function loginUser({ email, password, role }) {
 
     return res.data;
   } catch (error) {
-    if (error.response && error.response.data && error.response.data.message) {
-      return { success: false, message: error.response.data.message };
+    console.error("Login error:", error);
+    
+    // Handle specific error cases
+    if (error.response) {
+      const { status, data } = error.response;
+      
+      if (status === 400) {
+        // Handle validation errors
+        if (data.message) {
+          return { success: false, message: data.message };
+        }
+      } else if (status === 401) {
+        return { success: false, message: 'Incorrect password' };
+      } else if (status === 404) {
+        return { success: false, message: 'User not found' };
+      } else if (status === 500) {
+        return { success: false, message: 'Server error. Please try again later.' };
+      }
     }
-    return { success: false, message: error.message || 'Login failed' };
+    
+    // Handle network errors
+    if (error.message === 'Network Error') {
+      return { success: false, message: 'Network error. Please check your connection.' };
+    }
+    
+    // Default error
+    return { success: false, message: error.message || 'Login failed. Please try again.' };
   }
 }
 

@@ -52,17 +52,14 @@ limiter = Limiter(
     default_limits=["100 per hour"]
 )
 
-connect(
-    db=Config.MONGODB_DB,
-    host=Config.MONGODB_HOST,
-    port=Config.MONGODB_PORT
-)
+connect(host=os.getenv("MONGODB_HOST"))
+
 
 
 app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY")
 app.config['JWT_TOKEN_LOCATION'] = ['headers']
 app.config['JWT_COOKIE_SECURE'] = False  
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=2)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=30) 
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=7)
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 
@@ -99,3 +96,4 @@ print("========================")
 
 if __name__ == '__main__':
     app.run(debug=True)
+    

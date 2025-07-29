@@ -1,4 +1,3 @@
-# backend/ngo_notifications_routes.py
 
 from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -19,13 +18,17 @@ def get_ngo_notifications():
     notifications = Notification.objects(ngo_id=ngo_id).order_by('-time')
     result = []
     for n in notifications:
+        time_iso = n.time.isoformat() + 'Z' if n.time else None
+        print(f"🔍 NGO Notification {n.id} - Original time: {n.time}")
+        print(f"🔍 NGO Notification {n.id} - ISO format with Z: {time_iso}")
+        
         result.append({
             'id': str(n.id),
             'title': n.title,
             'message': n.message,
             'type': n.type,
             'read': n.read,
-            'time': n.time.strftime('%Y-%m-%d %H:%M')
+            'time': time_iso
         })
 
     return jsonify({'data': result}), 200
