@@ -1,0 +1,420 @@
+.activity-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fefcf7 0%, #f8f4e8 100%);
+  padding: 2rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.activity-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.activity-header {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 2.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(248, 244, 232, 0.6);
+  box-shadow: 
+    0 10px 40px rgba(218, 165, 32, 0.1),
+    0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.page-icon {
+  width: 48px;
+  height: 48px;
+  color: #d4af37;
+  background: linear-gradient(135deg, #f4e7c1 0%, #e8d5a3 100%);
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin: 0;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: #6b6b6b;
+  margin: 0.5rem 0 0 0;
+  font-weight: 400;
+}
+
+.stats-section,
+.achievements-section,
+.quick-actions-section {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(248, 244, 232, 0.6);
+  box-shadow: 
+    0 10px 40px rgba(218, 165, 32, 0.08),
+    0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(248, 244, 232, 0.8);
+}
+
+.section-icon {
+  width: 32px;
+  height: 32px;
+  color: #d4af37;
+  background: linear-gradient(135deg, #f4e7c1 0%, #e8d5a3 100%);
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2d2d2d;
+  margin: 0;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #6b6b6b;
+  margin: 0.25rem 0 0 0;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  color: #8b8b8b;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(212, 175, 55, 0.2);
+  border-top: 3px solid #d4af37;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.1;
+  border-radius: 20px;
+  transition: opacity 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card:hover::before {
+  opacity: 0.15;
+}
+
+.stat-card.primary {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(244, 231, 193, 0.2) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.stat-card.secondary {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(134, 239, 172, 0.2) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.stat-card.tertiary {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.2) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.stat-card.quaternary {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(196, 181, 253, 0.2) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.stat-icon-wrapper {
+  flex-shrink: 0;
+  padding: 16px;
+  border-radius: 16px;
+  position: relative;
+}
+
+.stat-card.primary .stat-icon-wrapper {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+}
+
+.stat-card.secondary .stat-icon-wrapper {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.stat-card.tertiary .stat-icon-wrapper {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.stat-card.quaternary .stat-icon-wrapper {
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2d2d2d;
+  margin: 0 0 0.25rem 0;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6b6b6b;
+  margin: 0 0 0.75rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-trend {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #22c55e;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.achievement-card {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement-card.earned {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(244, 231, 193, 0.2) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.achievement-card.locked {
+  background: rgba(248, 244, 232, 0.3);
+  border: 2px solid rgba(209, 213, 219, 0.3);
+  opacity: 0.7;
+}
+
+.achievement-card:hover {
+  transform: translateY(-3px);
+}
+
+.achievement-card.earned:hover {
+  box-shadow: 0 10px 40px rgba(212, 175, 55, 0.2);
+}
+
+.achievement-icon-wrapper {
+  flex-shrink: 0;
+  position: relative;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f4e7c1 0%, #e8d5a3 100%);
+}
+
+.achievement-card.earned .achievement-icon-wrapper {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+}
+
+.achievement-icon {
+  width: 32px;
+  height: 32px;
+  color: #d4af37;
+}
+
+.achievement-card.earned .achievement-icon {
+  color: white;
+}
+
+.earned-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  background: #22c55e;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
+.achievement-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.achievement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.achievement-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2d2d2d;
+  margin: 0;
+}
+
+.rarity-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rarity-common {
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  color: white;
+}
+
+.rarity-uncommon {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .activity-page {
+    padding: 1rem;
+  }
+
+  .activity-header {
+    padding: 1.5rem;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .achievement-card {
+    flex-direction: column;
+  }
+
+  .achievement-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .achievement-title {
+    font-size: 1.1rem;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+
+  .stat-value,
+  .stat-label,
+  .achievement-title {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
