@@ -26,7 +26,7 @@ def verify_password(password, hashed_password):
 def send_welcome_email_async(email):
     """Send welcome email in background thread"""
     try:
-        body = """Thank you for registering with Volunteer Hub , your trusted platform for connecting passionate individuals and impactful organizations. We are excited to have you as part of our growing community.
+        body = """Thank you for registering with Volunteer Hive , your trusted platform for connecting passionate individuals and impactful organizations. We are excited to have you as part of our growing community.
 
 Whether you are here to contribute your time and skills or to create opportunities that make a difference, we are committed to supporting you every step of the way.
 
@@ -37,11 +37,11 @@ Together, we can build stronger communities and drive meaningful change.
 Thank you for being with us.
 
 Warm regards,
-The Volunteer Hub Team
+The Volunteer Hive Team
 """
         send_email(
             to_email=email,
-            subject="Thank you for registering at Volunteer Hub!",
+            subject="Thank you for registering at Volunteer Hive!",
             body=textwrap.dedent(body)
         )
         print(f"✅ Welcome email sent to {email}")
