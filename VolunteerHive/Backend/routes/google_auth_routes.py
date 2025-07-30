@@ -40,7 +40,7 @@ def get_google_user_info(access_token):
 def send_welcome_email_async(email):
     """Send welcome email in background thread"""
     try:
-        body = """Thank you for registering with Volunteer Hub , your trusted platform for connecting passionate individuals and impactful organizations. We are excited to have you as part of our growing community.
+        body = """Thank you for registering with Volunteer Hive , your trusted platform for connecting passionate individuals and impactful organizations. We are excited to have you as part of our growing community.
 
 Whether you are here to contribute your time and skills or to create opportunities that make a difference, we are committed to supporting you every step of the way.
 
@@ -51,7 +51,7 @@ Together, we can build stronger communities and drive meaningful change.
 Thank you for being with us.
 
 Warm regards,
-The Volunteer Hub Team
+The Volunteer Hive Team
 """
         send_email(
             to_email=email,
