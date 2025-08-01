@@ -17,8 +17,8 @@ import time
 google_auth_routes = Blueprint('google_auth_routes', __name__)
 
 
-GOOGLE_CLIENT_ID = "6332882025-tl8j43i3hdema55a26e92qiqajgp6k0b.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "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"
+GOOGLE_CLIENT_ID = "GOOGLE_CLIENT_ID"
+GOOGLE_CLIENT_SECRET = "GOOGLE_CLIENT_SECRET"
 GOOGLE_REDIRECT_URI = "http://localhost:5000/api/auth/google/callback"
 
 
